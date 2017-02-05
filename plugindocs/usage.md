@@ -1,4 +1,3 @@
- 
 # Using the plugin
 ## Dependencies
 The plugin has the following dependencies:
@@ -15,12 +14,12 @@ Include either the development version or minified production version of the JS 
 ```html
 <head>
 	...
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
-   		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="screen">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="screen">
 
-		<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-		<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script src="imgViewer2.min.js"></script>
 	...
 </head>
@@ -35,7 +34,7 @@ Put an image element and a javascript block to attach the plugin to the image in
 	...
 	<script>
 		(function($) {
-			$("#image1").imgViewer();
+			$("#image1").imgViewer2();
 		})(JQuery);
 	</script>
 	...

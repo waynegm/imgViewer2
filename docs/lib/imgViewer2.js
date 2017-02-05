@@ -155,7 +155,7 @@ var waitForFinalEvent = (function () {
 							self.map.options.maxZoom = self.leafletZoom(self.options.zoomMax);
 						}, 300, $img[0].id);
 					});
-					self._trigger("onReady", {}, {});
+					self.options.onReady.call(self);
 			}).each(function() {
 				if (this.complete) { $(this).load(); }
 			});

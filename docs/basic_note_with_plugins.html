@@ -1,40 +1,39 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>JQuery Image Viewer Plugin - Note Display using Leaflet Plugins</title>
+		<title>imgViewer2 Plugin - note display using Leaflet plugins</title>
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
-		<script type="text/javascript" src="../libs/leaflet-src.js"></script>
+		<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="lib/imgViewer2.js"></script>
 		
 		<script src="https://unpkg.com/leaflet-responsive-popup@0.2.0/leaflet.responsive.popup.js"></script>
 		<link rel="stylesheet" href="https://unpkg.com/leaflet-responsive-popup@0.2.0/leaflet.responsive.popup.css" />
-		
 
 		<link rel="stylesheet" href="lib/leaflet-beautify-marker-icon.css">
 		<script src="lib/leaflet-beautify-marker-icon.js"></script>
-		
-		<script type="text/javascript" src="../libs/jquery/jquery.js"></script>
-		<script type="text/javascript" src="../libs/jquery/jquery-ui.js"></script>
-		<script type="text/javascript" src="../src/imgViewer.js"></script>
 	</head>
 	<body>
-			<h1>JQuery Image Viewer Plugin - Ehancing Note Display with Leaflet Plugins</h1>
+			<h1 align="center">imgViewer2 Plugin - ehanced marker and note display using Leaflet plugins</h1>
 				<div align="center">
-					<img  id="image1" src="../image/test_image.jpg" width="70%" />
+					<img  id="image1" src="images/test_image.jpg" width="80%" />
 				</div>
-				<p>This example uses the <a href="https://github.com/marslan390/BeautifyMarker" target="blank">BeautifyMarker</a> plugin for marker display and the <a href="https://github.com/yafred/leaflet-responsive-popup" target="blank">Leaflet Responsive Popup</a> plugin to replace the normal Leaflet popup to get popups that behave nicely for markers close to the edges of the view.
+				<p style="margin:1cm 10% 1cm 10%;">
+				This example uses the <a href="https://github.com/marslan390/BeautifyMarker" target="blank">BeautifyMarker</a> plugin for marker display and the <a href="https://github.com/yafred/leaflet-responsive-popup" target="blank">Leaflet Responsive Popup</a> plugin to replace the normal Leaflet popup to get popups that behave nicely for markers close to the edges of the view.
 				</p>
 <script type="text/javascript">
 ;(function($) {
-	$.widget("wgm.imgNotes", $.wgm.imgViewer, {
+	$.widget("wgm.imgNotes2", $.wgm.imgViewer2, {
 		options: {
 /*
  *	Defaault action for addNote callback
 */
 			addNote: function(event, data) {
-				var img = $(this).data("wgm-imgNotes"),
+				var img = $(this).data("wgm-imgNotes2"),
 					map = img.map,
 					loc = img.relposToLatLng(data.x, data.y);
 				var popup = L.responsivePopup({ hasTip: true, autoPan: false}).setContent(data.note);
@@ -62,17 +61,18 @@
 		}
 	});
 	$(document).ready( function() {
-		var $img = $("#image1").imgNotes().bind("imgnotesonready", function() {
-			var img = $(this).data("wgm-imgNotes");
-			var notes = [{x: "0.5", y:"0.5", note:"AFL Grand Final Trophy"}, 
-						{x: "0.322", y:"0.269", note: '\
-							<center><b>Brisbane Lions Flag</b><br/>\
-							<img src="http://www.lions.com.au/static-resources/themes/brisbane/images/logo-brisbane.png"/></center>\
-							<a href="http://www.lions.com.au/" target="blank">The Brisbane Lions</a> \
-							is an <a href="http://en.wikipedia.org/wiki/Australian_rules_football" target="blank">Australian rules football club.</a>'
-						},
-						{x: "0.824", y: "0.593", note: "Fluffy microphone"}];
-			img.import(notes);
+		var $img = $("#image1").imgNotes2( {
+						onReady: function() {
+							var notes = [	{x: "0.5", y:"0.5", note:"AFL Grand Final Trophy"}, 
+											{x: "0.322", y:"0.269", note: '\
+											<center><b>Brisbane Lions Flag</b><br/>\
+											<img src="http://www.lions.com.au/static-resources/themes/brisbane/images/logo-brisbane.png"/></center>\
+											<a href="http://www.lions.com.au/" target="blank">The Brisbane Lions</a> \
+											is an <a href="http://en.wikipedia.org/wiki/Australian_rules_football" target="blank">Australian rules football club.</a>'
+											},
+											{x: "0.824", y: "0.593", note: "Fluffy microphone"}];
+							this.import(notes);
+						}
 		});
 	});
 })(jQuery);
