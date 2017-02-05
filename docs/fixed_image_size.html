@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>imgViewer2 Plugin - Fixed image size example</title>
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+	</head>
+	<body>
+		<h1 align="center">imgViewer2 Plugin - fixed image size example</h1>
+		<div align="center">
+			<img  id="image1" src="images/test_image.jpg" width="800px" />
+		</div>
+		<p style="margin:1cm 10% 1cm 10%;"> This example demonstrates the basic functionality for a plain fixed size image. Zoom in and out using the mousewheel, +/- controls, double click/tap or hold the shift key and drag out a rectangle. Left mouseclick and drag to pan. On touch enable devices pinch gestures can be used to zoom in and out and tap and drag to pan around.
+		</p>				
+
+		<script type="text/javascript">
+			;(function($) {
+				var $img = $("#image1").imgViewer2();
+			})(jQuery);
+		</script>
+	</body>
+</html>
