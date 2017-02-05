@@ -23,7 +23,7 @@ This plugin is the successor to the original [imgViewer](https://github.com/wayn
 
 
 ## Documentation
-1. [Using the plugin](docs/usage.md)
-2. [Options](docs/options.md)
-2. [Methods](docs/methods.md)
-3. [Extending](docs/extending.md)
+1. [Using the plugin](plugindocs/usage.md)
+2. [Options](plugindocs/options.md)
+2. [Methods](plugindocs/methods.md)
+3. [Extending](plugindocs/extending.md)
