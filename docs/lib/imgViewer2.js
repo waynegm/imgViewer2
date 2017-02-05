@@ -253,14 +253,6 @@ var waitForFinalEvent = (function () {
 					break;
 			}
 		},
-		
-		addElem: function(elem) {
-			$(this.view).append(elem);
-		},
-		
-		isReady: function() {
-			return this.ready;
-		},
 /*
  *	Test if a relative image coordinate is visible in the current view
  */

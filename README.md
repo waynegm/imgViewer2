@@ -16,7 +16,7 @@ This plugin is the successor to the original [imgViewer](https://github.com/wayn
 2. [Dynamic image size](http://waynegm.github.io/imgViewer2/dynamic_image_size.html)
 3. [Decorated, dynamic image size](http://waynegm.github.io/imgViewer2/dynamic_decorated_image.html)
 4. [Custom onClick callback](http://waynegm.github.io/imgViewer2/custom_onclick_callback.html)
-2. [Control options](http://)
+2. [Control options](http://waynegm.github.io/imgViewer2/control_options.html)
 3. [Simple extension to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note.html)
 4. [Simple extension using Leaflet plugins to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note_with_plugins.html)
 

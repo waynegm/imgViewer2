@@ -16,9 +16,8 @@
     "minor-release": "npm version minor && npm publish && git push --follow-tags",
     "major-release": "npm version major && npm publish && git push --follow-tags",
     "preghpages": "npm run build && ",
-    "ghpages": "git push origin `git subtree split --prefix examples master`:gh-pages --force",
     "watch": "watch 'npm run build' src/",
-    "server": "http-server examples/"
+    "server": "http-server docs/"
   },
   "author": "Wayne Mogg",
   "license": "MIT",

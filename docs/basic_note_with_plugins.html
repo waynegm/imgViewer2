@@ -32,10 +32,9 @@
 /*
  *	Defaault action for addNote callback
 */
-			addNote: function(event, data) {
-				var img = $(this).data("wgm-imgNotes2"),
-					map = img.map,
-					loc = img.relposToLatLng(data.x, data.y);
+			addNote: function(data) {
+				var map = this.map,
+					loc = this.relposToLatLng(data.x, data.y);
 				var popup = L.responsivePopup({ hasTip: true, autoPan: false}).setContent(data.note);
 				var icon = L.BeautifyIcon.icon({icon: 'arrow-down',
 												borderColor: '#FFF607',
@@ -55,7 +54,7 @@
 			if (this.ready) {
 				var self = this;
 				$.each(notes, function() {
-					self._trigger("addNote", {}, this);
+					self.options.addNote.call(self, this);
 				});	
 			}
 		}
