@@ -1,10 +1,9 @@
 # Options
-Thw widget options can be set at the time of creation:
+The widget options can be set at the time of creation:
 ```javascript
 var $img = $("#image1").imgViewer2({
 	zoomMax: 6,
 	onClick: function( e, pos ) {
-				var v = this.getView();
 				$("#position").html("relx: " + pos.x + " rely: " + pos.y + " zoom: " + this.getZoom() );
 	}
 });
