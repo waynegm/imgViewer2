@@ -25,7 +25,7 @@ $img.imgViewer2("option", "zoomMax");
   * Example - to disable image dragging:
 
 ```javascript
-$("#image1").imgViewer("option", "dragable", false);
+$("#image1").imgViewer2("option", "dragable", false);
 ```
 ##zoomable
   * Controls if image will be zoomable
@@ -33,7 +33,7 @@ $("#image1").imgViewer("option", "dragable", false);
   * Example - to disable image zooming:
 
 ```javascript
-$("#image1").imgViewer("option", "zoomable", false);
+$("#image1").imgViewer2("option", "zoomable", false);
 ```
 
 ##zoomStep
@@ -42,7 +42,7 @@ $("#image1").imgViewer("option", "zoomable", false);
   * Example:
 
 ```javascript
-$("#image1").imgViewer("option", "zoomStep", 1.0);
+$("#image1").imgViewer2("option", "zoomStep", 1.0);
 ```
 
 ##zoomMax
@@ -51,7 +51,7 @@ $("#image1").imgViewer("option", "zoomStep", 1.0);
   * Example - to restrict zoom to 3x or less:
 
 ```javascript
-$("#image1").imgViewer("option", "zoomMax", 3);
+$("#image1").imgViewer2("option", "zoomMax", 3);
 ```
 
 ##onClick
@@ -65,7 +65,7 @@ $("#image1").imgViewer("option", "zoomMax", 3);
    where 0,0 correspondes to the topleft corner and 1,1 the bottom right):
    
 ```javascript
-$("#image1").imgViewer("option", "onClick", function(e, pos) {
+$("#image1").imgViewer2("option", "onClick", function(e, pos) {
 	$("#click_position").html(pos.x + " " + pos.y);
 });
 ```
@@ -76,7 +76,7 @@ $("#image1").imgViewer("option", "onClick", function(e, pos) {
   * Example - to set the zoom to 3 and move to the bottom right hand corner
    
 ```javascript
-$("#image1").imgViewer("option", "onReady", function() {
+$("#image1").imgViewer2("option", "onReady", function() {
 	this.setZoom(3).panTo(1,1);
 });
 ```
