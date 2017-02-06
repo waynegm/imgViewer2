@@ -1,7 +1,16 @@
 {
-  "name": "imgViewer2",
+  "name": "imgviewer2",
   "version": "1.0.0",
   "description": "extensible, responsive jquery plugin to zoom and pan images using the Leaflet mapping library",
+  "keywords": ["jquery-plugin", "ecosystem:jquery", "image"],
+  "repository": {"type": "git", "url": "https://github.com/waynegm/imgViewer2.git"},
+  "homepage": "https://github.com/waynegm/imgViewer2",
+  "bugs": "https://github.com/waynegm/imgViewer2/issues",
+  "main": "src/imgViewer2.js",
+  "dependencies": {
+	"jquery": "^1.8 || ^2.0 || ^3.0",
+	"leaflet": "^1.0.2"
+  },
   "scripts": {
     "clean": "rimraf dist/*",
     "lint": "jshint src/*.js",
@@ -19,7 +28,7 @@
     "watch": "watch 'npm run build' src/",
     "server": "http-server docs/"
   },
-  "author": "Wayne Mogg",
+  "author": "waynegm",
   "license": "MIT",
   "devDependencies": {
     "clean-css-cli": "^4.0.0",
