@@ -29,7 +29,7 @@
     "build:css": "npm run minify:css",
     "build": "echo '=> building'  && npm run clean && npm run build:css && npm run build:js",
     "push": "git push",
-    "patch-release": "npm version patch && npm publish ",
+    "patch-release": "npm version patch && npm publish",
     "minor-release": "npm version minor && npm publish ",
     "major-release": "npm version major && npm publish ",
     "watch": "watch 'npm run build' src/",
