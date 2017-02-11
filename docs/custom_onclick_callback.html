@@ -10,25 +10,31 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 	</head>
 	<body>
-		<h1 align="center">imgViewer2 Plugin - custom onClick callback example</h1>
-		<div align="center">
-			<img  id="image1" src="images/test_image.jpg" style="border: 30px solid #555; padding:20px;" width="80%"  />
-		</div>
-		<p style="margin:1cm 10% 1cm 10%;"> 
-		This example demonstrates the widget with a custom "onClick" callback. In this case clicking on the image will show the page pixel coordinates, image pixel coordinates and relative image coordinates (relative image coordinates range from 0,0 to 1,1 where 0,0 is the top-left corner and 1,1 is the bottom-right corner of the image) in a modal dialog.
-		</p>
-		<p style="margin:1cm 10% 1cm 10%;">
-		Zoom in and out using the mousewheel, +/- controls, double click/tap or hold the shift key and drag out a rectangle. Left mouseclick and drag to pan. On touch enable devices pinch gestures can be used to zoom in and out and tap and drag to pan around.
-		</p>				
-		<p style="margin:1cm 10% 1cm 10%;">
-		Resize the window and try again
-		</p>				
+		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
+			<tr>
+			<td style="padding: 10px">
+				<h1 align="center">imgViewer2 Plugin - custom onClick callback example</h1>
+				<div align="center">
+					<img  id="image1" src="images/test_image.jpg" style="border: 30px solid #555; padding:20px;" width="80%"  />
+				</div>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> 
+				This example demonstrates the widget with a custom "onClick" callback. In this case clicking on the image will show the page pixel coordinates, image pixel coordinates and relative image coordinates (relative image coordinates range from 0,0 to 1,1 where 0,0 is the top-left corner and 1,1 is the bottom-right corner of the image) in a modal dialog.
+				</p>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;">
+				Zoom in and out using the mousewheel, +/- controls, double click/tap or hold the shift key and drag out a rectangle. Left mouseclick and drag to pan. On touch enable devices pinch gestures can be used to zoom in and out and tap and drag to pan around.
+				</p>				
+				<p style="margin:10px 5% 10px 5%;">Resize the window and try again</p>				
+			</td>
+			</tr>
+		</table>
 
 		<script type="text/javascript">
 			;(function($) {
-				var $img = $("#image1").imgViewer2({
+				$(document).ready(function(){
+					var $img = $("#image1").imgViewer2({
 								onReady: function() {
 									$('.leaflet-grab').css('cursor','crosshair');
 								},
@@ -40,11 +46,11 @@
 															$('.ui-dialog').css('z-index',2001);
 															$('.ui-widget-overlay').css('z-index',2000);
 														}
-
 									});
 									var imgpos = this.relposToImage(pos);
 									$message.html("Page X: " + e.pageX + "<br/>Page Y: " + e.pageY + "<br/>Image Pixel X: " + imgpos.x + "<br/>Image Pixel Y: " + imgpos.y + "<br/>Image Rel X: " + pos.x.toFixed(3) + "<br/>Image Rel Y: " + pos.y.toFixed(3));
 								}
+					});
 				});
 			})(jQuery);
 		</script>

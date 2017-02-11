@@ -9,81 +9,90 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 	</head>
 	<body>
-		<h1 align="center">imgViewer2 Plugin - control options</h1>
-		<div align="center">
-			<img  id="image1" src="images/test_image.jpg" width="80%" />
-			<br/>
-			<button id="toggleZoom">Zoom On</button>	<button id="toggleDrag">Drag On</button>
-			<br/><br/>
-			Zoom Step: <input id="zoomstep" type="number" ></input> Maximum Zoom: <input id="mxzoom" type="number" min="1"></input>
-		</div>
-		<p style="margin:1cm 10% 1cm 10%;"> 
-		This example demonstrates how the widget behaviour can be controlled by option settings.
-		</p>
-		<p style="margin:1cm 10% 1cm 10%;">
-		Zoom and drag can be enabled/disabled using the buttons.The maximum zoom level and the zoom increment can be set. In a custom onReady callback the intial zoom and center view are set using widget methods. 
-		</p>				
+		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
+			<tr>
+			<td style="padding: 10px">
+				<h1 align="center">imgViewer2 Plugin - control options</h1>
+				<div align="center">
+					<img  id="image1" src="images/test_image.jpg" width="80%" />
+					<br/>
+					<button id="toggleZoom">Zoom On</button>	<button id="toggleDrag">Drag On</button>
+					<br/><br/>
+					Zoom Step: <input id="zoomstep" type="number" ></input> Maximum Zoom: <input id="mxzoom" type="number" min="1"></input>
+				</div>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> 
+				This example demonstrates how the widget behaviour can be controlled by option settings.
+				</p>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;">
+				Zoom and drag can be enabled/disabled using the buttons.The maximum zoom level and the zoom increment can be set. In a custom onReady callback the intial zoom and center view are set using widget methods. 
+				</p>				
+			</td>
+			</tr>
+		</table>
 
 <script type="text/javascript">
 ;(function($) {
-	var $img = $("#image1").imgViewer2({
-		zoomMax: 6,
-		zoomable: false,
-		dragable: false,
-		onReady: function() {
-			this.setZoom(3).panTo(1,1);
-		}
-	});
-	var $toggleZ = $("#toggleZoom");
-	if ($img.imgViewer2("option","zoomable"))
-		$toggleZ.text("Zoom Off");
-	else
-		$toggleZ.text("Zoom On");
+	$(document).ready(function() {
+		var $img = $("#image1").imgViewer2({
+			zoomMax: 6,
+			zoomable: false,
+			dragable: false,
+			onReady: function() {
+				this.setZoom(3).panTo(1,1);
+			}
+		});
+		var $toggleZ = $("#toggleZoom");
+		if ($img.imgViewer2("option","zoomable"))
+			$toggleZ.text("Zoom Off");
+		else
+			$toggleZ.text("Zoom On");
 		
-	$toggleZ.on("click", function() {
-		var $this = $(this);
-		if ($this.text()=="Zoom On") {
-			$this.text("Zoom Off");
-			$img.imgViewer2("option","zoomable", true);
-		} else {
-			$this.text("Zoom On");
-			$img.imgViewer2("option","zoomable", false);
-		}
-	});
+		$toggleZ.on("click", function() {
+			var $this = $(this);
+			if ($this.text()=="Zoom On") {
+				$this.text("Zoom Off");
+				$img.imgViewer2("option","zoomable", true);
+			} else {
+				$this.text("Zoom On");
+				$img.imgViewer2("option","zoomable", false);
+			}
+		});
 
-	var $toggleD = $("#toggleDrag");
-	if ($img.imgViewer2("option","dragable"))
-		$toggleD.text("Drag Off");
-	else
-		$toggleD.text("Drag On");
+		var $toggleD = $("#toggleDrag");
+		if ($img.imgViewer2("option","dragable"))
+			$toggleD.text("Drag Off");
+		else
+			$toggleD.text("Drag On");
 		
-	$toggleD.on("click", function() {
-		var $this = $(this);
-		if ($this.text()=="Drag On") {
-			$this.text("Drag Off");
-			$img.imgViewer2("option","dragable", true);
-		} else {
-			$this.text("Drag On");
-			$img.imgViewer2("option","dragable", false);
+		$toggleD.on("click", function() {
+			var $this = $(this);
+			if ($this.text()=="Drag On") {
+				$this.text("Drag Off");
+				$img.imgViewer2("option","dragable", true);
+			} else {
+				$this.text("Drag On");
+				$img.imgViewer2("option","dragable", false);
+			}	
+		});
+
+		var zoomStep = $img.imgViewer2("option", "zoomStep");
+		if (zoomStep !== null) {
+			$('#zoomstep').val(zoomStep);
 		}
-	});
+		$('#zoomstep').change( function(e) {
+			$img.imgViewer2("option", "zoomStep", $(this).val());
+		});
 
-	var zoomStep = $img.imgViewer2("option", "zoomStep");
-	if (zoomStep !== null) {
-		$('#zoomstep').val(zoomStep);
-	}
-	$('#zoomstep').change( function(e) {
-		$img.imgViewer2("option", "zoomStep", $(this).val());
-	});
-
-	var mxZoom = $img.imgViewer2("option","zoomMax");
-	if (mxZoom !== null) {
-		$('#mxzoom').val(mxZoom);
-	}
-	$('#mxzoom').change( function(e) {
-		$img.imgViewer2("option", "zoomMax", $(this).val());
+		var mxZoom = $img.imgViewer2("option","zoomMax");
+		if (mxZoom !== null) {
+			$('#mxzoom').val(mxZoom);
+		}
+		$('#mxzoom').change( function(e) {
+			$img.imgViewer2("option", "zoomMax", $(this).val());
+		});
 	});
 		
 })(jQuery);

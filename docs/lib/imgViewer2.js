@@ -149,6 +149,7 @@ var waitForFinalEvent = (function () {
 						self.map.options.maxZoom = self.leafletZoom(self.options.zoomMax);
 						waitForFinalEvent(function(){
 							self.resize = false;
+							self._view_resize();
 							self.map.options.minZoom = -10;
 							self.map.fitBounds(self.bounds,{animate:false});
 							self.map.options.minZoom = self.map.getBoundsZoom(L.latLngBounds(L.latLng(0,0), L.latLng(self.img.naturalHeight,self.img.naturalWidth)),true);
@@ -166,22 +167,30 @@ var waitForFinalEvent = (function () {
 			$(window).resize(function() {
 				if (self.ready) {
 					self.resize = true;
-					var $img = $(self.img),
-						width = $img.width(),
-						height = $img.height(),
-						offset = $img.offset();
-  
-					var vTop = Math.round(offset.top + self.offsetBorder.y + self.offsetPadding.top),
-					vLeft = Math.round(offset.left + self.offsetBorder.x + self.offsetPadding.left);
-					$(self.view).css({
-								top: vTop+"px",
-								left: vLeft+"px",
-								width: width+"px",
-								height: height+"px"
-					});
+					self._view_resize();
 					self.map.invalidateSize({animate: false});
 				}
 			});
+		},
+/*
+ *	View resize - the aim is to keep the view centered on the same location in the original image
+ */
+		_view_resize: function() {
+			if (this.ready) {
+				var $view = $(this.view),
+					$img = $(this.img),
+					width = $img.width(),
+					height = $img.height(),
+					offset = $img.offset(),
+					vTop = Math.round(offset.top + this.offsetBorder.y + this.offsetPadding.top),
+					vLeft = Math.round(offset.left + this.offsetBorder.x + this.offsetPadding.left);
+				$view.css({
+							top: vTop+"px",
+							left: vLeft+"px",
+							width: width+"px",
+							height: height+"px"
+				});
+			}
 		},
 /*
  *	Remove the plugin

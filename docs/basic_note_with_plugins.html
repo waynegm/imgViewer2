@@ -16,15 +16,23 @@
 
 		<link rel="stylesheet" href="lib/leaflet-beautify-marker-icon.css">
 		<script src="lib/leaflet-beautify-marker-icon.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 	</head>
 	<body>
-			<h1 align="center">imgViewer2 Plugin - ehanced marker and note display using Leaflet plugins</h1>
+		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
+			<tr>
+			<td style="padding: 10px">
+				<h1 align="center">imgViewer2 Plugin - ehanced marker and note display using Leaflet plugins</h1>
 				<div align="center">
 					<img  id="image1" src="images/test_image.jpg" width="80%" />
 				</div>
-				<p style="margin:1cm 10% 1cm 10%;">
+				<p style="margin:10px 5% 10px 5%;text-align: justify;">
 				This example uses the <a href="https://github.com/marslan390/BeautifyMarker" target="blank">BeautifyMarker</a> plugin for marker display and the <a href="https://github.com/yafred/leaflet-responsive-popup" target="blank">Leaflet Responsive Popup</a> plugin to replace the normal Leaflet popup to get popups that behave nicely for markers close to the edges of the view.
 				</p>
+			</td>
+			</tr>
+		</table>
+
 <script type="text/javascript">
 ;(function($) {
 	$.widget("wgm.imgNotes2", $.wgm.imgViewer2, {
