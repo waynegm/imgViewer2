@@ -158,7 +158,7 @@ var waitForFinalEvent = (function () {
 					});
 					self.options.onReady.call(self);
 			}).each(function() {
-				if (this.complete) { $(this).load(); }
+				if (this.complete) { $(this).trigger("load"); }
 			});
 /*
 /*
