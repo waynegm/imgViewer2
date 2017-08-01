@@ -425,21 +425,23 @@ var waitForFinalEvent = (function () {
 				west += newX - centerX;
 				north += newY - centerY;
 				south += newY - centerY;
-				if (west<0) {
-					east += west;
-					west = 0;
-				} else if (east > width) {
-					west -= east-width;
-					east = width;
-				}
-				if (south<0) {
-					north += south;
-					south = 0;
-				} else if (north > height) {
-					south -= north-height;
-					north = height;
-				}
-				map.fitBounds(L.latLngBounds(L.latLng(south,west), L.latLng(north,east)),{animate:false});
+                if (west<0) {
+                    east -= west;
+                    west = 0;
+                }
+                if (east > width) {
+                    west -= east-width;
+                    east = width;
+                }
+                if (south<0) {
+                    north -= south;
+                    south = 0;
+                }
+                if (north > height) {
+                    south -= north-height;
+                    north = height;
+                }
+                map.fitBounds(L.latLngBounds(L.latLng(south,west), L.latLng(north,east)),{animate:false});
 			}
 			return this;
 		},
