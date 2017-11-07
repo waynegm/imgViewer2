@@ -37,13 +37,18 @@
         _create() {
             var self = this;
             var images = this.element.children();
+            images.each(function( index) {
+                if (index!=0) {
+                    $(images[index]).hide();
+                }
+            });
+            
             var result = this._super();
             this.layerControl = new L.control.layers(null, null, {collapsed: false}).addTo(this.map);
             this.layerControl.addBaseLayer(self.zimg, images[0].alt);
             images.each(function( index) {
                 if (index!=0) {
                     self.addImage(images[index].alt, images[index].src);
-                    $(images[index]).hide();
                 }
             });
             return result;
@@ -57,7 +62,7 @@
             return img;
         }
 	});
-    $(window).on("load", function() {
+    $(document).ready(function() {
 		var $img = $("#images").imgComparator();
 	});
 })(jQuery);
