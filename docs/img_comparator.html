@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title >imgViewer2 Plugin - example extension to show multiple images</title>
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+		<script type="text/javascript" src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+	</head>
+	<body>
+		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
+			<tr>
+			<td style="padding: 10px">
+				<h1 align="center">imgViewer2 Plugin - example extension to compare multiple image versions</h1>
+				<div id="images" align="center" >
+					<img  alt="Raw" src="images/test_image.jpg" width="80%" />
+					<img  alt="Raindrops" src="images/test_image_raindrops.jpg" width="80%" />
+					<img  alt="Oil Paint" src="images/test_image_oil_paint.jpg" width="80%" />
+				</div>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> Here I extend the imgViewer2 widget to overlay multiple versions of the same image with a display control to toggle between the image versions for comparison. Because Leaflet comes with lots of display capabilities this can be added with only a few lines of code.
+				</p>
+			</td>
+			</tr>
+		</table>
+
+<script type="text/javascript">
+;(function($) {
+/*
+ *	Here we extend the imgViewer2 widget to compare multiple versions of an image
+ *
+ * This can be done with a few lines of code because of the capabilities of Leaflet
+*/
+	$.widget("wgm.imgComparator", $.wgm.imgViewer2, {
+        _create() {
+            var self = this;
+            var images = this.element.children();
+            var result = this._super();
+            this.layerControl = new L.control.layers(null, null, {collapsed: false}).addTo(this.map);
+            this.layerControl.addBaseLayer(self.zimg, images[0].alt);
+            images.each(function( index) {
+                if (index!=0) {
+                    self.addImage(images[index].alt, images[index].src);
+                    $(images[index]).hide();
+                }
+            });
+            return result;
+        },
+/*
+*   Add an image
+*/
+        addImage: function( name, imgurl ) {
+            var img = L.imageOverlay(imgurl, this.bounds).addTo(this.map);
+            this.layerControl.addOverlay(img, name);
+            return img;
+        }
+	});
+    $(window).on("load", function() {
+		var $img = $("#images").imgComparator();
+	});
+})(jQuery);
+</script>
+		</body>
+</html>

@@ -36,11 +36,17 @@ var waitForFinalEvent = (function () {
 		
 		_create: function() {
 			var self = this;
-			if (!this.element.is("img")) {
-				$.error('imgviewer plugin can only be applied to img elements');
+			if (!$(this.element).is("img")) {
+                var elem = this.element.children()[0];
+                if (!$(elem).is("img")) {
+                    $.error('imgviewer plugin can only be applied to img elements');
+                } else {
+                    self.img = self.element.children()[0];
+                }
+            } else {
+                self.img = self.element[0];
 			}
 //		the original img element
-			self.img = self.element[0];
 			var $img = $(self.img);
 /*
  *		a copy of the original image to be positioned over it and manipulated to

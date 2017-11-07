@@ -39,9 +39,14 @@
 			addNote: function(data) {
 				var map = this.map,
 					loc = this.relposToLatLng(data.x, data.y);
-				L.marker(loc).addTo(map).bindPopup(data.note);
+				var marker = L.marker(loc).addTo(map).bindPopup(data.note+"</br><input type='button' value='Delete' class='marker-delete-button'/>");
+				marker.on("popupopen", function() {
+					var temp = this;
+					$(".marker-delete-button:visible").click(function () {
+						temp.remove();
+					});
+				});
 			}
-			
 		},
 		
 /*
