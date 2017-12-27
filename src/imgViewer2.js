@@ -1,6 +1,6 @@
 /*
  * imgViewer2
- * 
+ *
  *
  * Copyright (c) 2013 Wayne Mogg
  * Licensed under the MIT license.
@@ -33,7 +33,7 @@ var waitForFinalEvent = (function () {
 			onClick: $.noop,
 			onReady: $.noop
 		},
-		
+
 		_create: function() {
 			var self = this;
 			if (!$(this.element).is("img")) {
@@ -74,7 +74,7 @@ var waitForFinalEvent = (function () {
 					};
 /*
  *			cache the image margin/border size information
- *			because of IE8 limitations left and right borders are assumed to be the same width 
+ *			because of IE8 limitations left and right borders are assumed to be the same width
  *			and likewise top and bottom borders
  */
 					self.offsetBorder = {
@@ -188,8 +188,8 @@ var waitForFinalEvent = (function () {
 					width = $img.width(),
 					height = $img.height(),
 					offset = $img.offset(),
-					vTop = Math.round(offset.top + this.offsetBorder.y + this.offsetPadding.top),
-					vLeft = Math.round(offset.left + this.offsetBorder.x + this.offsetPadding.left);
+					vTop = Math.floor(offset.top + this.offsetBorder.y + this.offsetPadding.top),
+					vLeft = Math.floor(offset.left + this.offsetBorder.x + this.offsetPadding.left);
 				$view.css({
 							top: vTop+"px",
 							left: vLeft+"px",
@@ -200,14 +200,14 @@ var waitForFinalEvent = (function () {
 		},
 /*
  *	Remove the plugin
- */  
+ */
 		destroy: function() {
 			$(window).unbind("resize");
 			this.map.remove();
 			$(this.view).remove();
 			$.Widget.prototype.destroy.call(this);
 		},
-  
+
 		_setOption: function(key, value) {
 			switch(key) {
 				case 'zoomStep':
@@ -366,7 +366,7 @@ var waitForFinalEvent = (function () {
 					hvw = width/zoom/2;
 					hvh = height/zoom/2;
 				}
-						
+
 				var	east = center.lng + hvw,
 					west = center.lng - hvw,
 					north = center.lat + hvh,
@@ -452,8 +452,8 @@ var waitForFinalEvent = (function () {
 			return this;
 		},
 /*
- *	Return the relative image coordinate for a Leaflet event 
- */		
+ *	Return the relative image coordinate for a Leaflet event
+ */
 		eventToImg: function(ev) {
 			if (this.ready) {
 				var img = this.img,
