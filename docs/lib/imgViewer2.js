@@ -345,7 +345,8 @@ var waitForFinalEvent = (function () {
 		setZoom: function( zoom ) {
 			if (this.ready) {
 				zoom = Math.max(1, zoom);
-				if (this.options.zoomMax !== null) {
+				if (this.options.zoomMax === undefined) {
+				} else {
 					zoom = Math.min(zoom, this.options.zoomMax);
 				}
 				var img = this.img,

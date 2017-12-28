@@ -1,6 +1,7 @@
 # Release History
 ## 1.1.0
--  now can either activate plugin on an img tag or on a div tag that contains one or more img tags.
+- now can either activate plugin on an img tag or on a div tag that contains one or more img tags.
+- in setZoom trap if maxZoom is undefined
 ## 1.0.3
 - fix logic in panTo function so zoom does not change
 ## 1.0.2
