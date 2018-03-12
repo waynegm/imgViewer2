@@ -103,7 +103,7 @@ var waitForFinalEvent = (function () {
 														trackresize: false,
 														maxBoundsViscosity: 1.0,
 														attributionControl: false,
-														inertia: false,
+														inertia: true,
 														zoomSnap: 0,
 														wheelPxPerZoomLevel: Math.round(36/self.options.zoomStep),
 														zoomDelta: self.options.zoomStep
