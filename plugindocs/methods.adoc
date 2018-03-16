@@ -3,66 +3,83 @@
 
 toc::[]
 
-== eventToImg - convert a leaflet event location to relative image coordinates
+=== eventToImg - convert a leaflet event location to relative image coordinates
   * Arguments:
-    * e: leaflet event
-  * Returns a javascript object with the relative image coordinates:
-	* { x: relative x image coordinate, y: relative y image coordinate }
-  * Returns null if the event location is invalid or the widget is not ready.
-
-== getView - get the relative image coordinates of the current view
-  * Returns a javascript object with the relative image coordinates:
-	* { top: minimum relative y coordinate,
-	*	left: minimum relative x coordinate,
-	*	bottom: maximum relative y image coordinate,
-	*	right: maximum relative x coordinate
-	* }
-
-== getMap - return the Leaflet map object or null if the widget is not ready
-
-== getZoom - get the current zoom level
-  * Returned zoom will always be >=1
-  * Note this is not the same as the Leaflet zoom:
-    * a zoom of 1 means the entire image is just visible within the viewport
-    * a zoom of 2 means half the image is visible etc
-
-== isVisible - test if a given relative image coordinate is within the bounds of the current view
-  * Arguments:
-	* relx: relative x image coordinate
-	* rely: relative y image coordinate
+  ** e: leaflet event
   * Returns
-	* true or false
+  ** Javascript object with the relative image coordinates:
+	*** { x: relative x image coordinate, y: relative y image coordinate }
+  *** relative image coords are between 0 and 1
+  *** (0,0) is the top left image corner
+  *** (1,1) is the bottom right image corner
+  ** Null if the event location is invalid or the widget is not ready.
 
-== leafletZoom - convert an imgViewer zoom to a Leaflet zoom
-  * Arguments:
-    * zoom: the imgViewer zoom , must be >=1
-  * Returns the equivalent Leaflet zoom
-  * Returns null if the widget isn't ready
+=== getView - get the relative image coordinates of the current view
+  * Returns
+  ** Javascript object with the relative image coordinates:
+	*** { top: minimum relative y coordinate,
+	***	left: minimum relative x coordinate,
+	***	bottom: maximum relative y image coordinate,
+	***	right: maximum relative x coordinate }
+  *** relative image coords are between 0 and 1
+  *** (0,0) is the top left image corner
+  *** (1,1) is the bottom right image corner
 
-== panTo - pan the view to be centered at the given relative image coordinates
+=== getMap - return the Leaflet map object or null if the widget is not ready
+
+=== getZoom - get the current zoom level
   * Arguments:
-	* relx: relative x image coordinate
-	* rely: relative y image coordinate
+  ** None
+  * Returns
+  ** The current zoom level
+  *** Will always be >=1
+  *** Note this is not the same as the Leaflet zoom:
+  *** a zoom of 1 means the entire image is just visible within the viewport
+  *** a zoom of 2 means half the image is visible etc
+
+=== isVisible - test if a given relative image coordinate is within the bounds of the current view
+  * Arguments:
+	** relx: relative x image coordinate
+	** rely: relative y image coordinate
+  ** relative image coords are between 0 and 1
+  ** (0,0) is the top left image corner
+  ** (1,1) is the bottom right image corner
   * Returns:
-    * a reference to the imgViewer object
+	** true or false
 
-== relposToLatLng - convert relative image coordinates to a Leaflet LatLng
+=== leafletZoom - convert an imgViewer zoom to a Leaflet zoom
   * Arguments:
-	* relx: relative x image coordinate
-	* rely: relative y image coordinate
+  ** zoom: the imgViewer zoom , must be >=1
   * Returns:
-    * Leaflet L.LatLng
-  * Returns null if the widget isn't ready
+  ** The equivalent Leaflet zoom
+  ** Null if the widget isn't ready
 
-== relposToImage - convert relative image coordinates to image pixel
+=== panTo - pan the view to be centered at the given relative image coordinates
   * Arguments:
-    * pos: javascript object {x: , y: }
+	** relx: relative x image coordinate
+	** rely: relative y image coordinate
+  ** relative image coords are between 0 and 1
+  ** (0,0) is the top left image corner
+  ** (1,1) is the bottom right image corner
   * Returns:
-    * javascript object {x: , y: }
+  ** Reference to the imgViewer object
 
-== setZoom
-  * Set the zoom level
+=== relposToLatLng - convert relative image coordinates to a Leaflet LatLng
   * Arguments:
-    * zoom: the new imgViewer zoom, must be >=1
+	** relx: relative x image coordinate
+	** rely: relative y image coordinate
   * Returns:
-    * a reference to the imgViewer object
+  ** Leaflet L.LatLng position
+  ** Null if the widget isn't ready
+
+=== relposToImage - convert relative image coordinates to image pixel
+  * Arguments:
+  ** pos: javascript object {x: , y: } with the relative image coord
+  * Returns:
+  ** Javascript object {x: , y: } with the image pixel location
+
+=== setZoom - set the zoom level
+  * Arguments:
+  ** zoom: the new imgViewer zoom, must be >=1
+  * Returns:
+  ** Reference to the imgViewer object

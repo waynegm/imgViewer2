@@ -4,7 +4,8 @@
 
 The widget options can be set at the time of creation:
 [source, javascript]
-var $img = $("#image1").imgViewer2({
+var $img = $("#imgdiv").imgViewer2({
+	imgURL: "test.jpg",
 	zoomMax: 6,
 	onClick: function( e, pos ) {
 				$("#position").html("relx: " + pos.x + " rely: " + pos.y + " zoom: " + this.getZoom() );
@@ -21,21 +22,47 @@ $img.imgViewer2("option", "zoomMax");
 
 toc::[]
 
-== dragable - controls if image will be dragable
+=== imgURL - the URL of the image to display
+	 * Default: None - will generate an error message
+   * Example
+
+[source, javascript]
+$("#imgv").imgViewer2({imgURL: "test.jpg"});
+
+=== constraint - controls which image direction should fill the display at zoom level 1
+   * Default: undefined - the whole image will be visible at zoom 1
+	 * 'width' - the full width of the image will be visible at zoom 1
+	 * 'height' - the full height of the image will be visible at zoom 1
+	 * Example - to display the full width:
+
+[source, javascript]
+$("#imgv").imgViewer2({imgURL: "test.jpg", constraint: "width"});
+
+=== leafletOptions - object with options to be passed to the Leaflet map constructor
+  * Default: {}
+	* Example
+
+[source, javascript]
+$("#imgdiv").imgViewer2({
+	imgURL: "test.jpg",
+	leafletOptions: {zoomAnimation: false, inertia: false}
+});
+
+=== dragable - controls if image will be dragable
   * Default: true
   * Example - to disable image dragging:
 
 [source, javascript]
 $("#image1").imgViewer2("option", "dragable", false);
 
-== zoomable - controls if image will be zoomable
+=== zoomable - controls if image will be zoomable
   * Default: true
   * Example - to disable image zooming:
 
 [source, javascript]
 $("#image1").imgViewer2("option", "zoomable", false);
 
-== zoomStep - how much the zoom changes for each mousewheel click
+=== zoomStep - how much the zoom changes for each mousewheel click
   * must be a positive number
   * Default: 0.5
   * Example:
@@ -43,7 +70,7 @@ $("#image1").imgViewer2("option", "zoomable", false);
 [source, javascript]
 $("#image1").imgViewer2("option", "zoomStep", 1.0);
 
-== zoomMax - get/set the limit on the maximum zoom level of the image
+=== zoomMax - get/set the limit on the maximum zoom level of the image
   * must be >= 1
   * Default: null ie no limit on zoom
   * Example - to restrict zoom to 3x or less:
@@ -51,7 +78,7 @@ $("#image1").imgViewer2("option", "zoomStep", 1.0);
 [source, javascript]
 $("#image1").imgViewer2("option", "zoomMax", 3);
 
-== onClick - callback triggered by a mouseclick on the image
+=== onClick - callback triggered by a mouseclick on the image
   * within the callback "this" refers to the imgViewer widget.
   * Default: null
   * Callback Arguments:
@@ -66,7 +93,7 @@ $("#image1").imgViewer2("option", "onClick", function(e, pos) {
 	$("#click_position").html(pos.x + " " + pos.y);
 });
 
-== onReady - callback triggered when the widget has been all set up and is ready to be used
+=== onReady - callback triggered when the widget has been all set up and is ready to be used
   * within the callback "this" refers to the imgViewer widget.
   * Default: null
   * Callback Arguments: none

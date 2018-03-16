@@ -19,7 +19,7 @@ This plugin is the successor to the original [imgViewer](https://github.com/wayn
 2. [Control options](http://waynegm.github.io/imgViewer2/control_options.html)
 3. [Simple extension to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note.html)
 4. [Simple extension using Leaflet plugins to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note_with_plugins.html)
-5. [Simple extension to compare multiple versions of an image](http://waynegm.github.io/imgViewer2/img_comparator.html)
+5. [Simple extension to compare multiple versions of an image](http://waynegm.github.io/imgViewer2/multiple_image.html)
 
 
 ## Documentation

@@ -4,10 +4,10 @@
 		<title>imgViewer2 Plugin - custom onClick callback example</title>
 		
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" media="screen">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-		<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+		<script type="text/javascript" src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
 
-		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="lib/imgViewer2.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
@@ -17,8 +17,7 @@
 			<tr>
 			<td style="padding: 10px">
 				<h1 align="center">imgViewer2 Plugin - custom onClick callback example</h1>
-				<div align="center">
-					<img  id="image1" src="images/test_image.jpg" style="border: 30px solid #555; padding:20px;" width="80%"  />
+				<div id="imgv" style="margin: auto; width:80%; height: 600px;border: 30px solid #555; padding:20px;" >
 				</div>
 				<p style="margin:10px 5% 10px 5%;text-align: justify;"> 
 				This example demonstrates the widget with a custom "onClick" callback. In this case clicking on the image will show the page pixel coordinates, image pixel coordinates and relative image coordinates (relative image coordinates range from 0,0 to 1,1 where 0,0 is the top-left corner and 1,1 is the bottom-right corner of the image) in a modal dialog.
@@ -33,8 +32,9 @@
 
 		<script type="text/javascript">
 			;(function($) {
-				$(document).ready(function(){
-					var $img = $("#image1").imgViewer2({
+				$(window).on("load",function(){
+					var $img = $("#imgv").imgViewer2({
+                                imgURL: "images/test_image.jpg",
 								onReady: function() {
 									$('.leaflet-grab').css('cursor','crosshair');
 								},

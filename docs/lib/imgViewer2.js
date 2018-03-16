@@ -8,213 +8,83 @@
 
 
 
-var waitForFinalEvent = (function () {
-	var timers = {};
-	return function (callback, ms, uniqueId) {
-		if (!uniqueId) {
-			uniqueId = "Don't call this twice without a uniqueId";
-		}
-		if (timers[uniqueId]) {
-			clearTimeout (timers[uniqueId]);
-		}
-		timers[uniqueId] = setTimeout(callback, ms);
-	};
-})();
+
 /*
  *	imgViewer2 plugin starts here
  */
 ;(function($) {
 	$.widget("wgm.imgViewer2", {
 		options: {
-			zoomStep: 0.5,
+            imgURL: undefined,
 			zoomMax: undefined,
 			zoomable: true,
 			dragable: true,
+            constraint: undefined,
+            leafletOptions: {},
 			onClick: $.noop,
 			onReady: $.noop
 		},
 		
 		_create: function() {
 			var self = this;
-			if (!$(this.element).is("img")) {
-                var elem = this.element.children()[0];
-                if (!$(elem).is("img")) {
-                    $.error('imgviewer plugin can only be applied to img elements');
-                } else {
-                    self.img = self.element.children()[0];
-                }
-            } else {
-                self.img = self.element[0];
-			}
-//		the original img element
-			var $img = $(self.img);
-/*
- *		a copy of the original image to be positioned over it and manipulated to
- *		provide zoom and pan
- */
-			self.view = $("<div class='viewport' />").uniqueId().appendTo("body");
-			var $view = $(self.view);
-			self.map  = {};
-			self.bounds = {};
-//		a flag used to check the target image has loaded
-			self.ready = false;
-			self.resize = false;
-			$img.one("load",function() {
-//			get and some geometry information about the image
-				self.ready = true;
-				var	width = $img.width(),
-					height = $img.height(),
-					offset = $img.offset();
-//			cache the image padding information
-					self.offsetPadding = {
-							top: parseInt($img.css('padding-top'),10),
-							left: parseInt($img.css('padding-left'),10),
-							right: parseInt($img.css('padding-right'),10),
-							bottom: parseInt($img.css('padding-bottom'),10)
-					};
-/*
- *			cache the image margin/border size information
- *			because of IE8 limitations left and right borders are assumed to be the same width 
- *			and likewise top and bottom borders
- */
-					self.offsetBorder = {
-							x: Math.round(($img.outerWidth()-$img.innerWidth())/2),
-							y: Math.round(($img.outerHeight()-$img.innerHeight())/2)
-					};
-/*
- *			define the css style for the view container using absolute positioning to
- *			put it directly over the original image
- */
-					var vTop = offset.top + self.offsetBorder.y + self.offsetPadding.top,
-						vLeft = offset.left + self.offsetBorder.x + self.offsetPadding.left;
+            self.map = undefined;
+            self.baseImg = undefined;
+            self.ready=false;
+            self.container = self.element[0].id;
+            if (document.getElementById(self.container)) {
+                self.map = L.map(self.container, $.extend({crs:L.CRS.Simple, zoomSnap:0},self.options.leafletOptions));
+                self._loadBaseImage(this.options.imgURL, function() {
+                    self._process_zoomable();
+                    self._process_dragable();
+                    self._process_zoomMax();
 
-					$view.css({
-								position: "absolute",
-								overflow: "hidden",
-								top: vTop+"px",
-								left: vLeft+"px",
-								width: width+"px",
-								height: height+"px"
-					});
-//			add the leaflet map
-					self.bounds = L.latLngBounds(L.latLng(0,0), L.latLng(self.img.naturalHeight,self.img.naturalWidth));
-					self.map = L.map($view.attr('id'), {crs:L.CRS.Simple,
-														minZoom: -10,
-														trackresize: false,
-														maxBoundsViscosity: 1.0,
-														attributionControl: false,
-														inertia: true,
-														zoomSnap: 0,
-														wheelPxPerZoomLevel: Math.round(36/self.options.zoomStep),
-														zoomDelta: self.options.zoomStep
-					});
-					self.zimg = L.imageOverlay(self.img.src, self.bounds).addTo(self.map);
-					self.map.options.minZoom = self.map.getBoundsZoom(self.bounds,false);
-					self.map.fitBounds(self.bounds);
-					self.bounds = self.map.getBounds();
-					self.map.setMaxBounds(self.bounds);
-					if (self.options.zoomMax !== null) {
-						var lzoom = self.leafletZoom(self.options.zoomMax);
-						if (lzoom < self.map.getZoom()) {
-							self.map.setZoom(lzoom);
-						}
-						self.map.options.maxZoom = lzoom;
-					}
-					if (!self.options.dragable) {
-						self.map.dragging.disable();
-					}
-					if (!self.options.zoomable) {
-						self.map.zoomControl.disable();
-						self.map.boxZoom.disable();
-						self.map.touchZoom.disable();
-						self.map.doubleClickZoom.disable();
-						self.map.scrollWheelZoom.disable();
-					}
-					self.map.on('click', function(ev) {
-						if (self.options.onClick !== null) {
-							self.options.onClick.call(self, ev.originalEvent, self.eventToImg(ev));
-						}
-					});
-					self.map.on('zoomend', function() {
-						if (self.options.zoomMax >= 1 && this.getZoom() > this.options.zoomMax) {
-							this.setZoom(this.options.zoomMax);
-						}
-						if (!self.resize) {
-							self.bounds = self.map.getBounds();
-						}
-					});
-					self.map.on('moveend', function() {
-						if (!self.resize) {
-							self.bounds = self.map.getBounds();
-						}
-					});
-					self.map.on('resize', function() {
-						self.map.options.minZoom = -10;
-						self.map.fitBounds(self.bounds,{animate:false});
-						self.map.options.minZoom = self.map.getBoundsZoom(L.latLngBounds(L.latLng(0,0), L.latLng(self.img.naturalHeight,self.img.naturalWidth)),true);
-						self.map.options.maxZoom = self.leafletZoom(self.options.zoomMax);
-						waitForFinalEvent(function(){
-							self.resize = false;
-							self._view_resize();
-							self.map.options.minZoom = -10;
-							self.map.fitBounds(self.bounds,{animate:false});
-							self.map.options.minZoom = self.map.getBoundsZoom(L.latLngBounds(L.latLng(0,0), L.latLng(self.img.naturalHeight,self.img.naturalWidth)),true);
-							self.map.options.maxZoom = self.leafletZoom(self.options.zoomMax);
-						}, 300, $img[0].id);
-					});
-					self.options.onReady.call(self);
-			}).each(function() {
-				if (this.complete) { $(this).trigger("load"); }
-			});
-/*
-/*
- *		Window resize handler
- */
-			$(window).resize(function() {
-				if (self.ready) {
-					self.resize = true;
-					self._view_resize();
-					self.map.invalidateSize({animate: false});
-				}
-			});
-		},
-/*
- *	View resize - the aim is to keep the view centered on the same location in the original image
- */
-		_view_resize: function() {
-			if (this.ready) {
-				var $view = $(this.view),
-					$img = $(this.img),
-					width = $img.width(),
-					height = $img.height(),
-					offset = $img.offset(),
-					vTop = Math.round(offset.top + this.offsetBorder.y + this.offsetPadding.top),
-					vLeft = Math.round(offset.left + this.offsetBorder.x + this.offsetPadding.left);
-				$view.css({
-							top: vTop+"px",
-							left: vLeft+"px",
-							width: width+"px",
-							height: height+"px"
-				});
-			}
+                    self.map.on('click', function(ev) {
+                        if (self.options.onClick !== null) {
+                            self.options.onClick.call(self, ev.originalEvent, self.eventToImg(ev));
+                        }
+                    });
+
+                    self.options.onReady.call(self);
+                });
+            }
 		},
 /*
  *	Remove the plugin
  */  
 		destroy: function() {
-			$(window).unbind("resize");
 			this.map.remove();
-			$(this.view).remove();
 			$.Widget.prototype.destroy.call(this);
 		},
-  
-		_setOption: function(key, value) {
-			switch(key) {
-				case 'zoomStep':
-					if (parseFloat(value) <= 0 ||  isNaN(parseFloat(value))) {
-						return;
-					}
-					break;
+        
+        _loadBaseImage: function(url, callback) {
+            var self = this;
+            if (self.map.hasLayer(self.baseImage)) {
+                self.map.removeLayer(self.baseImg);
+                self.baseImg = undefined;
+            }
+            var img = new Image();
+            img.src = url;
+            $(img).one('load', function() {
+                self.ready = true;
+                self.imgwidth = this.naturalWidth;
+                self.imgheight = this.naturalHeight;
+                self.bounds = L.latLngBounds(L.latLng(0,0), L.latLng(self.imgheight,self.imgwidth));
+                self.zimg = L.imageOverlay(self.options.imgURL, self.bounds).addTo(self.map);
+                self.map.setMaxBounds(self.bounds);
+                self.map.setMinZoom(-2000);
+                self.map.fitBounds(self.bounds);
+                self.map.setMinZoom(self.map.getZoom());
+                self.setZoom(1);
+                
+                callback();
+            });
+            $(img).on('error', function() {
+                alert("Image file not found");
+            });
+        },
+        
+        _setOption: function(key, value) {
+            switch(key) {
 				case 'zoomMax':
 					if (parseFloat(value) < 1 || isNaN(parseFloat(value))) {
 						return;
@@ -228,46 +98,55 @@ var waitForFinalEvent = (function () {
 				$.Widget.prototype._setOption.apply(this, arguments);
 			}
 			switch(key) {
-				case 'zoomStep':
-					if (this.ready) {
-						this.map.options.zoomDelta = this.options.zoomStep;
-						this.map.options.wheelPxPerZoomLevel = Math.round(60/this.options.zoomStep);
-					}
-					break;
+                case 'imgURL':
+                    this._loadBaseImage(this.options.imgURL);
+                    break;
 				case 'zoomMax':
-					if (this.ready) {
-						lzoom = this.leafletZoom(this.options.zoomMax);
-						if (lzoom < this.map.getZoom()) {
-							this.map.setZoom(lzoom);
-						}
-						this.map.options.maxZoom = lzoom;
-						this.map.fire('zoomend');
-					}
+                    this._process_zoomMax();
 					break;
 				case 'zoomable':
-					if (this.options.zoomable) {
-						this.map.zoomControl.enable();
-						this.map.boxZoom.enable();
-						this.map.touchZoom.enable();
-						this.map.doubleClickZoom.enable();
-						this.map.scrollWheelZoom.enable();
-					} else {
-						this.map.zoomControl.disable();
-						this.map.boxZoom.disable();
-						this.map.touchZoom.disable();
-						this.map.doubleClickZoom.disable();
-						this.map.scrollWheelZoom.disable();
-					}
+                    this._process_zoomable();
 					break;
 				case 'dragable':
-					if (this.options.dragable) {
-						this.map.dragging.enable();
-					} else {
-						this.map.dragging.disable();
-					}
+                    this._process_dragable();
 					break;
 			}
 		},
+        
+        _process_zoomable: function() {
+            if (this.options.zoomable) {
+                this.map.zoomControl.enable();
+                this.map.boxZoom.enable();
+                this.map.touchZoom.enable();
+                this.map.doubleClickZoom.enable();
+                this.map.scrollWheelZoom.enable();
+            } else {
+                this.map.zoomControl.disable();
+                this.map.boxZoom.disable();
+                this.map.touchZoom.disable();
+                this.map.doubleClickZoom.disable();
+                this.map.scrollWheelZoom.disable();
+            }
+        },
+        
+        _process_dragable: function() {
+            if (this.options.dragable) {
+                this.map.dragging.enable();
+            } else {
+                this.map.dragging.disable();
+            }
+        },
+        
+        _process_zoomMax: function() {
+            if (this.ready && this.options.zoomMax !== undefined) {
+                lzoom = this.leafletZoom(this.options.zoomMax);
+                if (lzoom < this.map.getZoom()) {
+                    this.map.setZoom(lzoom);
+                }
+                this.map.options.maxZoom = lzoom;
+                this.map.fire('zoomend');
+            }
+        },
 /*
  *	Test if a relative image coordinate is visible in the current view
  */
@@ -284,12 +163,11 @@ var waitForFinalEvent = (function () {
 */
 		leafletZoom: function(zoom) {
 			if (this.ready && zoom !== undefined) {
-				var img = this.img,
-					map = this.map,
+				var map = this.map,
 					lzoom = map.getZoom() || 0,
 					size = map.getSize(),
-					width = img.naturalWidth,
-					height = img.naturalHeight,
+					width = this.imgwidth,
+					height = this.imgheight,
 					nw = L.latLng(height/zoom,width/zoom),
 					se = L.latLng(0,0),
 					boundsSize = map.project(nw, lzoom).subtract(map.project(se, lzoom));
@@ -319,10 +197,9 @@ var waitForFinalEvent = (function () {
 */
 		getZoom: function() {
 			if (this.ready) {
-				var img = this.img,
-					map = this.map,
-					width = img.naturalWidth,
-					height = img.naturalHeight,
+				var map = this.map,
+					width = this.imgwidth,
+					height = this.imgheight,
 					constraint = this.options.constraint,
 					bounds = map.getBounds();
 				if (constraint == 'width' ) {
@@ -349,10 +226,9 @@ var waitForFinalEvent = (function () {
 				} else {
 					zoom = Math.min(zoom, this.options.zoomMax);
 				}
-				var img = this.img,
-					map = this.map,
-					width = img.naturalWidth,
-					height = img.naturalHeight,
+				var map = this.map,
+					width = this.imgwidth,
+					height = this.imgheight,
 					constraint = this.options.constraint,
 					center = map.getCenter(),
 					bounds = map.getBounds();
@@ -380,13 +256,14 @@ var waitForFinalEvent = (function () {
 					east = width;
 				}
 				if (south<0) {
-					north += south;
+					north -= south;
 					south = 0;
 				} else if (north > height) {
 					south -= north-height;
 					north = height;
 				}
 				map.fitBounds(L.latLngBounds(L.latLng(south,west), L.latLng(north,east)),{animate:false});
+                this.map.fire('zoomend');
 			}
 			return this;
 		},
@@ -395,9 +272,8 @@ var waitForFinalEvent = (function () {
  */
 		getView: function() {
 			if (this.ready) {
-				var img = this.img,
-					width = img.naturalWidth,
-					height = img.naturalHeight,
+				var width = this.imgwidth,
+					height = this.imgheight,
 					bnds = this.map.getBounds();
 			 return {
 					top: 1 - bnds.getNorth()/height,
@@ -414,18 +290,16 @@ var waitForFinalEvent = (function () {
  */
 		panTo: function(relx, rely) {
 			if ( this.ready && relx >= 0 && relx <= 1 && rely >= 0 && rely <=1 ) {
-				var img = this.img,
-					map = this.map,
-					bounds = this.bounds,
-//					bounds = map.getBounds(),
+				var map = this.map,
+					bounds = map.getBounds(),
 					east = bounds.getEast(),
 					west = bounds.getWest(),
 					north = bounds.getNorth(),
 					south = bounds.getSouth(),
 					centerX = (east+west)/2,
 					centerY = (north+south)/2,
-					width = img.naturalWidth,
-					height = img.naturalHeight,
+					width = this.imgwidth,
+					height = this.imgheight,
 					newY = (1-rely)*height,
 					newX = relx*width;
 				east += newX - centerX;
@@ -457,11 +331,10 @@ var waitForFinalEvent = (function () {
  */		
 		eventToImg: function(ev) {
 			if (this.ready) {
-				var img = this.img,
-					width = img.naturalWidth,
-					height = img.naturalHeight;
-				relx = ev.latlng.lng/width;
-				rely = 1 - ev.latlng.lat/height;
+				var width = this.imgwidth,
+					height = this.imgheight,
+                    relx = ev.latlng.lng/width,
+                    rely = 1 - ev.latlng.lat/height;
 				if (relx>=0 && relx<=1 && rely>=0 && rely<=1) {
 					return {x: relx, y: rely};
 				} else {
@@ -476,9 +349,8 @@ var waitForFinalEvent = (function () {
  */
 		relposToLatLng: function(x,y) {
 			if (this.ready) {
-				var img = this.img,
-					width = img.naturalWidth,
-					height = img.naturalHeight;
+				var width = this.imgwidth,
+					height = this.imgheight;
 				return L.latLng((1-y)*height, x*width);
 			} else {
 				return null;
@@ -489,9 +361,8 @@ var waitForFinalEvent = (function () {
  */
 		relposToImage: function(pos) {
 			if (this.ready) {
-				var img = this.img,
-					width = img.naturalWidth,
-					height = img.naturalHeight;
+				var width = this.imgwidth,
+					height = this.imgheight;
 				return {x: Math.round(pos.x*width), y: Math.round(pos.y*height)};
 			} else {
 				return null;
