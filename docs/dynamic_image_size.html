@@ -9,14 +9,29 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+		<style>
+            .mapbody {
+                        position: fixed;
+                        top:0 ;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                    }
+            .map {
+                    margin: auto;
+                    position: relative;
+                    height: 60%;
+                    width: 80%;
+                  }
+        </style>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 	</head>
 	<body>
 		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
 			<tr>
-			<td style="padding: 10px">
+			<td class="mapbody">
 				<h1 align="center">imgViewer2 Plugin - dynamic image size example</h1>
-				<div id="imgv" style="margin: auto; width: 80%; min-height: 400px;" >
+				<div id="imgv" class="map" >
 				</div>
 				<p style="margin:10px 5% 10px 5%;text-align: justify;"> This example demonstrates the widget with a dynamic image width.
 				Zoom in and out using the mousewheel, +/- controls, double click/tap or hold the shift key and drag out a rectangle. Left mouseclick and drag to pan. On touch enable devices pinch gestures can be used to zoom in and out and tap and drag to pan around.
