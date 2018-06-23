@@ -52,7 +52,7 @@ var waitForFinalEvent = (function () {
  *		a copy of the original image to be positioned over it and manipulated to
  *		provide zoom and pan
  */
-			self.view = $("<div class='viewport' />").uniqueId().appendTo("body");
+			self.view = $("<div class='viewport' />").uniqueId().appendTo($img.parent());
 			var $view = $(self.view);
 			self.map  = {};
 			self.bounds = {};
@@ -64,7 +64,7 @@ var waitForFinalEvent = (function () {
 				self.ready = true;
 				var	width = $img.width(),
 					height = $img.height(),
-					offset = $img.offset();
+					offset = $img.position();
 //			cache the image padding information
 					self.offsetPadding = {
 							top: parseInt($img.css('padding-top'),10),
@@ -103,7 +103,7 @@ var waitForFinalEvent = (function () {
 														trackresize: false,
 														maxBoundsViscosity: 1.0,
 														attributionControl: false,
-														inertia: true,
+														inertia: false,
 														zoomSnap: 0,
 														wheelPxPerZoomLevel: Math.round(36/self.options.zoomStep),
 														zoomDelta: self.options.zoomStep
@@ -187,7 +187,7 @@ var waitForFinalEvent = (function () {
 					$img = $(this.img),
 					width = $img.width(),
 					height = $img.height(),
-					offset = $img.offset(),
+					offset = $img.position(),
 					vTop = Math.round(offset.top + this.offsetBorder.y + this.offsetPadding.top),
 					vLeft = Math.round(offset.left + this.offsetBorder.x + this.offsetPadding.left);
 				$view.css({
