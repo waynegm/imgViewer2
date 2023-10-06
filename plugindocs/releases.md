@@ -1,4 +1,9 @@
 # Release History
+## 1.3.0
+- added option zoomCrisp
+- added option zoomHires
+- the destroy call no loger removes the onresize function (is often used wider)
+
 ## 1.2.0
 - update dependencies to address security vulnerabilities
 - insert widget as child of the target image container (previously just appended to page) fixes issue with images in bootstrap modals

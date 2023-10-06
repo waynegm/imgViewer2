@@ -51,6 +51,16 @@ $("#image1").imgViewer2("option", "zoomStep", 1.0);
 [source, javascript]
 $("#image1").imgViewer2("option", "zoomMax", 3);
 
+== zoomCrisp - get/set the "CSS crisp option" when the image is oversized by 20%
+  * Default: false
+
+== zoomHires - load a HiRes image when the original image is oversized by 30%
+  * Default: empty
+  * Example - to restrict zoom to 3x or less:
+
+[source, javascript]
+$("#image1").imgViewer2("option", "zoomHires", "folder/HiRes.jpg");
+
 == onClick - callback triggered by a mouseclick on the image
   * within the callback "this" refers to the imgViewer widget.
   * Default: null

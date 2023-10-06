@@ -13,13 +13,15 @@ This plugin is the successor to the original [imgViewer](https://github.com/wayn
 
 ## Examples
 1. [Fixed size image](http://waynegm.github.io/imgViewer2/fixed_image_size.html)
-2. [Dynamic image size](http://waynegm.github.io/imgViewer2/dynamic_image_size.html)
-3. [Decorated, dynamic image size](http://waynegm.github.io/imgViewer2/dynamic_decorated_image.html)
-4. [Custom onClick callback](http://waynegm.github.io/imgViewer2/custom_onclick_callback.html)
-2. [Control options](http://waynegm.github.io/imgViewer2/control_options.html)
-3. [Simple extension to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note.html)
-4. [Simple extension using Leaflet plugins to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note_with_plugins.html)
-5. [Simple extension to compare multiple versions of an image](http://waynegm.github.io/imgViewer2/img_comparator.html)
+2. [Fixed size image + Zoom-HiRes](http://waynegm.github.io/imgViewer2/fixed_image_size_zoom.html)
+3. [Dynamic image size](http://waynegm.github.io/imgViewer2/dynamic_image_size.html)
+4. [Dynamic image size + Crisp](http://waynegm.github.io/imgViewer2/dynamic_image_size_crisp.html)
+5. [Decorated, dynamic image size](http://waynegm.github.io/imgViewer2/dynamic_decorated_image.html)
+6. [Custom onClick callback](http://waynegm.github.io/imgViewer2/custom_onclick_callback.html)
+7. [Control options](http://waynegm.github.io/imgViewer2/control_options.html)
+8. [Simple extension to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note.html)
+9. [Simple extension using Leaflet plugins to display markers and notes](http://waynegm.github.io/imgViewer2/basic_note_with_plugins.html)
+10. [Simple extension to compare multiple versions of an image](http://waynegm.github.io/imgViewer2/img_comparator.html)
 
 
 ## Documentation

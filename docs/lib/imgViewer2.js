@@ -109,6 +109,9 @@ var waitForFinalEvent = (function () {
 														zoomDelta: self.options.zoomStep
 					});
 					self.zimg = L.imageOverlay(self.img.src, self.bounds).addTo(self.map);
+          if (self.options.zoomCrisp) { // an other one for crispness
+            self.zimg = L.imageOverlay(self.img.src, self.bounds).addTo(self.map);
+          }
 					self.map.options.minZoom = self.map.getBoundsZoom(self.bounds,false);
 					self.map.fitBounds(self.bounds);
 					self.bounds = self.map.getBounds();
@@ -142,6 +145,19 @@ var waitForFinalEvent = (function () {
 						if (!self.resize) {
 							self.bounds = self.map.getBounds();
 						}
+						if (self.options.zoomHires) {
+							if ($view.find('.leaflet-image-layer:first').prop('naturalWidth')/$view.find('.leaflet-image-layer:first').outerWidth() < 0.7
+							 && $view.find('.leaflet-image-layer:first').attr('src') != self.options.zoomHires
+							) {
+								$view.find('.leaflet-image-layer').attr('src',self.options.zoomHires)
+							}
+						}
+						if (self.options.zoomCrisp && $view.find('.leaflet-image-layer:first').prop('naturalWidth')/$view.find('.leaflet-image-layer:first').outerWidth() < 0.8) {
+							$view.find('.leaflet-image-layer:eq(1)').css({'opacity': 0.5, 'image-rendering': 'pixelated'});
+						} else
+            if ($view.find('.leaflet-image-layer').length == 2) {
+							$view.find('.leaflet-image-layer:eq(1)').css({'opacity': 0});
+						}
 					});
 					self.map.on('moveend', function() {
 						if (!self.resize) {
@@ -166,12 +182,12 @@ var waitForFinalEvent = (function () {
 			}).each(function() {
 				if (this.complete) { $(this).trigger("load"); }
 			});
-/*
+
 /*
  *		Window resize handler
  */
-			$(window).resize(function() {
-				if (self.ready) {
+			$(window).on('resize',function() {
+				if (self && self.ready) {
 					self.resize = true;
 					self._view_resize();
 					self.map.invalidateSize({animate: false});
@@ -202,7 +218,7 @@ var waitForFinalEvent = (function () {
  *	Remove the plugin
  */  
 		destroy: function() {
-			$(window).unbind("resize");
+			//$(window).unbind("resize"); // when you don't use your own resize function, you can re-activate this..
 			this.map.remove();
 			$(this.view).remove();
 			$.Widget.prototype.destroy.call(this);
