@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>imgViewer2 Plugin - Fixed image size example</title>
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+	</head>
+	<body>
+		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
+			<tr>
+			<td style="padding: 10px">
+				<h1 align="center">imgViewer2 Plugin - fixed image size example + Zoom with HiRes</h1>
+				<div align="center" >
+					<img  id="image1" src="images/test_image_low_res.jpg" width="800px" />
+				</div>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> This example demonstrates the basic functionality for a plain fixed size image. Zoom in and out using the mousewheel, +/- controls, double click/tap or hold the shift key and drag out a rectangle. Left mouseclick and drag to pan. On touch enable devices pinch gestures can be used to zoom in and out and tap and drag to pan around.
+				</p>				
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> It also starts out with a low resolution image and when the zoom oversizes that image by 30% the HiRes image is loaded.
+				</p>				
+			</td>
+			</tr>
+		</table>
+
+		<script type="text/javascript">
+			;(function($) {
+				$(window).on("load", function() {
+					var $img = $("#image1").imgViewer2({
+						// Use HiRes image upon zooming
+						zoomHires: 'images/test_image.jpg',
+					});
+				});
+			})(jQuery);
+		</script>
+	</body>
+</html>

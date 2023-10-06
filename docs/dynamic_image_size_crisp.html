@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>imgViewer2 Plugin - dynamic image size example</title>
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="lib/imgViewer2.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+	</head>
+	<body>
+		<table cellspacing="0" cellpadding="0" border="0" style="width: 100%; min-width: 320px;">
+			<tr>
+			<td style="padding: 10px">
+				<h1 align="center">imgViewer2 Plugin - dynamic image size example + "crisp option"</h1>
+				<div align="center">
+					<img  id="image1" src="images/test_image.jpg" width="100%" />
+				</div>
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> This example demonstrates the widget with a dynamic image width.
+				Zoom in and out using the mousewheel, +/- controls, double click/tap or hold the shift key and drag out a rectangle. Left mouseclick and drag to pan. On touch enable devices pinch gestures can be used to zoom in and out and tap and drag to pan around.
+				</p>				
+				<p style="margin:10px 5% 10px 5%;"> Resize the window and try again
+				<p style="margin:10px 5% 10px 5%;text-align: justify;"> Combined with the "crisp option".
+				When the image is "oversized" by 20% a "CSS trick" is used to make the image more crisp
+				</p>				
+				<p style="margin:10px 5% 10px 5%;">
+        <strong><a href="javascript:var crisp = (typeof($(this).data('zoomcrisp'))=='undefined'||$(this).data('zoomcrisp')?false:true);$(this).data('zoomcrisp',crisp);$('#image1').imgViewer2('option','zoomCrisp',crisp);">Toggle</a></strong>
+        the "crisp option" and Zoom in more.
+				</p>				
+			</td>
+			</tr>
+		</table>
+
+		<script type="text/javascript">
+			;(function($) {
+				$(document).ready(function() {
+					var $img = $("#image1").imgViewer2({
+						// Add 'crisp' upon zoom
+						zoomCrisp: true,
+					});
+				});
+			})(jQuery);
+		</script>
+	</body>
+</html>
